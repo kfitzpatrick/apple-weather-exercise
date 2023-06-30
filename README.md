@@ -1,15 +1,10 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
-
-Things you may want to cover:
-
-* Ruby version
-
 * System dependencies
 
 * Configuration
+
+You will need a Google Maps Platform API Key. Information can be found at https://developers.google.com/maps/documentation/geocoding/get-api-key under 'Creating API Keys.'
 
 * Database creation
 
