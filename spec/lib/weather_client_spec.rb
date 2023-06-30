@@ -1,0 +1,3 @@
+describe WeatherClient do
+  
+end
