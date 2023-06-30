@@ -1,3 +1,0 @@
-describe WeatherClient do
-  
-end
