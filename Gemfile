@@ -72,6 +72,7 @@ group :test do
 end
 
 gem "rspec-rails", "~> 6.0", :groups => [:development, :test]
+gem 'guard-rspec', require: false, :groups => [:development, :test]
 
 gem 'hurley', :git => "https://github.com/AkermanisM/hurley.git"
 gem "google_maps_service", "~> 0.4.2"
