@@ -8,7 +8,7 @@ describe AddressLocator do
   let(:client) { AddressLocator.new('my key') }
 
   context 'with an address' do
-    it 'can retrieve lat/long for a given address' do
+    it 'can retrieve lat/long for a given address from Google Maps Services' do
       response_object = [{
           :formatted_address=>"1147 Hearst Ave, Berkeley, CA 94702, USA",
           :geometry=> {:location=>{:lat=>1, :lng=>0} }
