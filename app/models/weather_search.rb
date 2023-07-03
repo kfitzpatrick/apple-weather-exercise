@@ -6,6 +6,9 @@
 class WeatherSearch < ApplicationRecord
   validates_presence_of :search_term
   before_save :get_location_data
+  before_save :get_forecast_data
+
+  has_many :forecasts, dependent: :destroy
 
   # Searches for a matching location using the search_term
   # @return [Object]
@@ -16,5 +19,10 @@ class WeatherSearch < ApplicationRecord
     self.longitude = first_response[:geometry][:location][:lng]
     self.address =   first_response[:formatted_address]
     self.zipcode =   first_response[:address_components].find { |ac| ac[:types].include?('postal_code') }[:long_name]
+  end
+
+  def get_forecast_data
+    periods = WeatherClient.forecast_at(lat: latitude, lng: longitude)
+    self.forecasts = periods.map(&:to_json)
   end
 end
