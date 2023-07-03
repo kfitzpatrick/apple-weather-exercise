@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'weather_client/forecast'
 
 describe WeatherClient::Forecast do

@@ -10,8 +10,8 @@ describe AddressLocator do
   context 'with an address' do
     it 'can retrieve lat/long for a given address from Google Maps Services' do
       response_object = [{
-          :formatted_address=>"1147 Hearst Ave, Berkeley, CA 94702, USA",
-          :geometry=> {:location=>{:lat=>1, :lng=>0} }
+        formatted_address: '1147 Hearst Ave, Berkeley, CA 94702, USA',
+        geometry: { location: { lat: 1, lng: 0 } }
       }]
       client_double = double(:client, geocode: response_object)
       allow(GoogleMapsService::Client).to receive(:new).with(key: 'my key').and_return(client_double)
