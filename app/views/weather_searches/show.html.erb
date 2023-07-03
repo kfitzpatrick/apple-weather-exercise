@@ -1,0 +1,11 @@
+<p style="color: green"><%= notice %></p>
+
+<p>Found <%= @weather_search.address %></p>
+<%= render @weather_search %>
+
+<div>
+  <%= link_to "Edit this weather search", edit_weather_search_path(@weather_search) %> |
+  <%= link_to "Back to weather searches", weather_searches_path %>
+
+  <%= button_to "Destroy this weather search", @weather_search, method: :delete %>
+</div>
