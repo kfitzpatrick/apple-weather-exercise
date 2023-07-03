@@ -10,14 +10,15 @@ RSpec.describe WeatherSearch, type: :model do
         context 'on success' do
           let(:mock_location_search_result) do
             [{
-               address_components: [{ long_name: 'Infinite Loop 1', short_name: 'Infinite Loop 1', types: ['premise'] },
-                                    { long_name: '95014', short_name: '95014', types: ['postal_code'] }],
-               formatted_address: 'Infinite Loop 1, 1 Infinite Loop, Cupertino, CA 95014, USA',
-               geometry: {
-                 location: { lat: 37.3318598, lng: -122.0302485 }
-               },
-               place_id: 'ChIJAf9D3La1j4ARuwKZtGjgMXw',
-               types: ['premise'] }]
+              address_components: [{ long_name: 'Infinite Loop 1', short_name: 'Infinite Loop 1', types: ['premise'] },
+                                   { long_name: '95014', short_name: '95014', types: ['postal_code'] }],
+              formatted_address: 'Infinite Loop 1, 1 Infinite Loop, Cupertino, CA 95014, USA',
+              geometry: {
+                location: { lat: 37.3318598, lng: -122.0302485 }
+              },
+              place_id: 'ChIJAf9D3La1j4ARuwKZtGjgMXw',
+              types: ['premise']
+            }]
           end
           it 'populates the data in the database and returns' do
             expect(LocationSearch).to receive(:search).and_return(mock_location_search_result)
