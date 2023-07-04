@@ -5,6 +5,7 @@ require 'rails_helper'
 RSpec.describe 'WeatherSearches', type: :system do
   before do
     driven_by(:rack_test)
+    allow(ENV).to receive(:[]).with('GOOGLE_MAPS_API_KEY').and_return('fake-key')
   end
 
   describe 'Doing a Weather Forecast Search' do

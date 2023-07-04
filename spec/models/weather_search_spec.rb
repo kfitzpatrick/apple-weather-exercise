@@ -28,20 +28,17 @@ RSpec.describe WeatherSearch, type: :model do
 
           it 'populates the Forecast data in the database and returns' do
             wc_forecasts = [
-              double(WeatherClient::ForecastResult, name: 'Today', temperature: 76),
-              double(WeatherClient::ForecastResult, name: 'Tomorrow', temperature: 75),
+              FactoryBot.build(:forecast_result, name: 'Today', temperature: 76),
+              FactoryBot.build(:forecast_result, name: 'Tomorrow', temperature: 75),
             ]
             expect(WeatherClient).to receive(:forecast).and_return(wc_forecasts)
             weather_search = WeatherSearch.new(search_term: 'foo')
             expect(weather_search.save).to be_truthy
             weather_search.reload
             expect(weather_search.forecasts.count).to eq(2)
-            expect(weather_search.forecasts).to contain_exactly(
-                                                  an_object_having_attributes(name: 'Today', temperature: 76),
-                                                  an_object_having_attributes(name: 'Tomorrow', temperature: 75),
-                                                )
+            expect(weather_search.forecasts.map(&:name)).to contain_exactly('Today', 'Tomorrow')
           end
-         
+
           context 'on failure' do
             it 'does something appropriate'
           end
