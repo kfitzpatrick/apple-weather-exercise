@@ -2,6 +2,7 @@
 
 require 'faraday'
 require 'faraday/follow_redirects'
+require 'weather_client/forecast_result'
 
 # WeatherClient uses the National Weather Service to retrieve weather forecasts
 class WeatherClient
@@ -14,19 +15,20 @@ class WeatherClient
     end
   end
 
+  # @return [Array[WeatherClient::ForecastResult]] An array of ForecastResult objects
   def forecast_at(lat:, lng:)
     point_data = get_point_data(lat, lng)
     forecast_url = point_data['properties']['forecast']
     response = conn.get(forecast_url)
     body = JSON.parse(response.body)
     props = body['properties']
-    props['periods'].map { |p| Forecast.from_json(p) }
+    props['periods'].map { |p| ForecastResult.from_json(p) }
   end
 
   # Retrieve forecast for a given latitude and longitude from National Weather Service
   # @param [String|Number] lat Latitude of point to get forecast for
   # @param [String|Number] lng Longitude of point to get forecast for
-  # @return [Array[WeatherClient::Forecast]] An array of Forecast objects
+  # @return [Array[WeatherClient::ForecastResult]] An array of Forecast objects
   def self.forecast(lat:, lng:)
     client = WeatherClient.new
     client.forecast_at(lat:, lng:)
