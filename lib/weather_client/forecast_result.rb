@@ -5,7 +5,7 @@ class WeatherClient
   # It is used to convert the JSON response from the National Weather Service into a Ruby object
   # that can be used in the application. It is not persisted to the database and is only used
   # in memory.
-  class Forecast
+  class ForecastResult
     attr_accessor :name,
                   :start_time,
                   :end_time,
