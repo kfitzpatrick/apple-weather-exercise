@@ -20,7 +20,7 @@ RSpec.describe WeatherSearch, type: :model do
               types: ['premise']
             }]
           end
-          it 'populates the data in the database and returns' do
+          it 'populates the Location data in the database and returns' do
             expect(LocationSearch).to receive(:search).and_return(mock_location_search_result)
             weather_search = WeatherSearch.new(search_term: 'foo')
             expect(weather_search.save).to be_truthy

@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 
+require 'google_maps_service'
+require 'location_search/location'
+
 # Service class for doing address searches
 class LocationSearch
 
