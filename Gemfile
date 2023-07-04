@@ -73,6 +73,7 @@ group :test do
   gem 'webdrivers'
 end
 
+gem 'factory_bot_rails', '~> 6.2', groups: %i[development test]
 gem 'guard-rspec', require: false, groups: %i[development test]
 gem 'rspec-rails', '~> 6.0', groups: %i[development test]
 
@@ -83,3 +84,5 @@ gem 'hurley', git: 'https://github.com/AkermanisM/hurley.git'
 gem 'pp'
 
 gem 'rubocop', '~> 1.53', group: :development
+
+
