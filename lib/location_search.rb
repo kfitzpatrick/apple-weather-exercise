@@ -2,7 +2,11 @@
 
 # Service class for doing address searches
 class LocationSearch
+
   def self.search(address)
-    # Google Maps API call
+    gmapclient = GoogleMapsService::Client.new(key: ENV['GOOGLE_MAPS_API_KEY'])
+    gmapclient_geocode = gmapclient.geocode(address)
+    LocationSearch::Location.new gmapclient_geocode.first
   end
+
 end

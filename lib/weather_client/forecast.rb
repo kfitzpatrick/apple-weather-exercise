@@ -1,6 +1,10 @@
 # frozen_string_literal: true
 
 class WeatherClient
+  # WeatherClient::Forecast is a PORO (Plain Old Ruby Object) that represents a single forecast
+  # It is used to convert the JSON response from the National Weather Service into a Ruby object
+  # that can be used in the application. It is not persisted to the database and is only used
+  # in memory.
   class Forecast
     attr_accessor :name,
                   :start_time,
@@ -14,6 +18,7 @@ class WeatherClient
                   :short_forecast,
                   :detailed_forecast
 
+    # Create a new Forecast object from a JSON object
     def self.from_json(json_object)
       new.tap do |f|
         f.name = json_object['name']
