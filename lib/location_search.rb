@@ -7,7 +7,7 @@ require 'location_search/location'
 class LocationSearch
 
   def self.search(address)
-    gmapclient = GoogleMapsService::Client.new(key: ENV['GOOGLE_MAPS_API_KEY'])
+    gmapclient = GoogleMapsService::Client.new(key: Rails.configuration.x.google_maps_api_key)
     gmapclient_geocode = gmapclient.geocode(address)
     LocationSearch::Location.new gmapclient_geocode.first
   end

@@ -86,3 +86,5 @@ gem 'pp'
 gem 'rubocop', '~> 1.53', group: :development
 
 
+
+gem "dotenv", "~> 2.8"

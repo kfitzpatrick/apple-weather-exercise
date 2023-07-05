@@ -20,5 +20,6 @@ module AppleInterview
     #
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
+    config.x.google_maps_api_key = ENV['GOOGLE_MAPS_API_KEY']
   end
 end

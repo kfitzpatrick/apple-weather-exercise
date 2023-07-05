@@ -6,11 +6,17 @@
 
 You will need a Google Maps Platform API Key. Information can be found at https://developers.google.com/maps/documentation/geocoding/get-api-key under 'Creating API Keys.'
 
-* Database creation
+Once you have your API key, set up your local environment by copying the .env.example file to .env and adding your API key to the GOOGLE_MAPS_API_KEY variable.
 
-* Database initialization
+In production, add GOOGLE_MAPS_API_KEY to your environment variables.
+
+* Database creation & initialization
+
+`bin/rails db:setup`
 
 * How to run the test suite
+
+`bin/rails spec`
 
 * Services (job queues, cache servers, search engines, etc.)
 
