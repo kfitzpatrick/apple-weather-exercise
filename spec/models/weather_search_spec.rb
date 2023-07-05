@@ -5,12 +5,24 @@ require 'rails_helper'
 require 'location_search'
 RSpec.describe WeatherSearch, type: :model do
   describe 'lifecycle' do
+    describe 'validations' do
+      context 'when location search fails' do
+        it 'shows a validation error' do
+          expect(LocationSearch).to receive(:search).and_raise(LocationSearch::NoResultsFoundForAddressError, 'uh oh bad address')
+          weather_search = WeatherSearch.new(search_term: 'foo')
+          results = weather_search.save
+          expect(results).to eq(false)
+          expect(weather_search.errors.messages[:search_term]).to eq(['uh oh bad address'])
+        end
+      end
+    end
+
     describe 'before create' do
       describe 'searching for a matching address' do
         context 'on success' do
           let(:location) do
             double(LocationSearch::Location, latitude: '3', longitude: '-1', formatted_address: 'foo',
-                                             zipcode: '95014')
+                   zipcode: '95014')
           end
 
           before do

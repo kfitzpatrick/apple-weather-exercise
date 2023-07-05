@@ -137,7 +137,17 @@ RSpec.describe 'WeatherSearches', type: :system do
       expect(page).to have_text('Search term can\'t be blank')
     end
 
-    it 'shows an error if Google Maps could not find a matching address'
+    describe 'with a bad address' do
+      let(:mock_location_search_result) { nil }
+
+      it 'it shows an error message' do
+        visit '/weather_searches/new'
+        fill_in 'Search term', with: 'bad address'
+        click_on 'Search'
+        expect(page).to have_text('No results found for address: bad address')
+      end
+    end
+
     it 'shows an error if no forecasts were found'
   end
 end

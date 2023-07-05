@@ -18,7 +18,24 @@ describe LocationSearch do
     }
   end
 
-  context "when google maps service doesn't return a result"
+  context "when google maps service doesn't return a result" do
+    it 'raises an error when nil' do
+      client = double('GoogleMapsService::Client', geocode: nil)
+      allow(GoogleMapsService::Client).to receive(:new).with(key: 'key').and_return(client)
+      expect do
+        LocationSearch.search('foo', 'key')
+      end.to raise_error(LocationSearch::NoResultsFoundForAddressError, 'No results found for address: foo')
+    end
+
+    it 'raises an error when []' do
+      client = double('GoogleMapsService::Client', geocode: [])
+      allow(GoogleMapsService::Client).to receive(:new).with(key: 'key').and_return(client)
+      expect do
+        LocationSearch.search('foo', 'key')
+      end.to raise_error(LocationSearch::NoResultsFoundForAddressError, 'No results found for address: foo')
+    end
+
+  end
 
   context 'when google maps returns an array of possible results' do
     let(:mock_location_search_result) { [address] }

@@ -2,13 +2,16 @@
 
 require 'weather_client'
 require 'location_search'
+
 # TODO: load if same zip and less than 30 minutes old
 
 # Represents the search the user is making
 class WeatherSearch < ApplicationRecord
-  validates_presence_of :search_term
-  before_save :search_location_data
+  before_validation :search_location_data
   before_save :search_forecast_data
+
+  validates_presence_of :search_term
+  validates_presence_of :address
 
   has_many :forecasts, dependent: :destroy
 
@@ -20,9 +23,13 @@ class WeatherSearch < ApplicationRecord
     self.longitude = location.longitude
     self.address =   location.formatted_address
     self.zipcode =   location.zipcode
+  rescue LocationSearch::NoResultsFoundForAddressError => e
+    errors.add(:search_term, e.message)
   end
 
   def search_forecast_data
+    return if !latitude || !longitude
+
     forecast_results = WeatherClient.forecast(lat: latitude, lng: longitude)
     self.forecasts = Forecast.from_search_results(forecast_results)
   end
