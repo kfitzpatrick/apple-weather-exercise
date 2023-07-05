@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe Forecast do
-  describe ".from_search_results" do
+  describe '.from_search_results' do
     it 'creates a Forecast for each WeatherClient::ForecastResult' do
       results = [FactoryBot.build(:forecast_result, name: 'Today', temperature: 76),
                  FactoryBot.build(:forecast_result, name: 'Tomorrow', temperature: 75)]
@@ -12,4 +14,3 @@ describe Forecast do
     end
   end
 end
-

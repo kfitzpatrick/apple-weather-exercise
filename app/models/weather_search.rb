@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'weather_client'
 require 'location_search'
 # TODO: load if same zip and less than 30 minutes old

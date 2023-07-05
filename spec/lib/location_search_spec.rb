@@ -5,9 +5,8 @@ require 'location_search'
 require 'google_maps_service'
 
 describe LocationSearch do
-
-  let(:mock_location_search_result) do
-    [{
+  let(:address) do
+    {
       address_components: [{ long_name: 'Infinite Loop 1', short_name: 'Infinite Loop 1', types: ['premise'] },
                            { long_name: '95014', short_name: '95014', types: ['postal_code'] }],
       formatted_address: 'Infinite Loop 1, 1 Infinite Loop, Cupertino, CA 95014, USA',
@@ -16,14 +15,34 @@ describe LocationSearch do
       },
       place_id: 'ChIJAf9D3La1j4ARuwKZtGjgMXw',
       types: ['premise']
-    }]
+    }
   end
-  it 'searches google maps service for a location based on address' do
-    client = double('GoogleMapsService::Client',
-                    geocode: mock_location_search_result)
-    allow(GoogleMapsService::Client).to receive(:new).with(key: 'key').and_return(client)
-    result = LocationSearch.search('foo', 'key')
-    expect(result).to be_an_instance_of(LocationSearch::Location)
-    expect(result.latitude).to eq(37.3318598)
+
+  context "when google maps service doesn't return a result"
+
+  context 'when google maps returns an array of possible results' do
+    let(:mock_location_search_result) { [address] }
+
+    it 'returns the first result' do
+      client = double('GoogleMapsService::Client',
+                      geocode: mock_location_search_result)
+      allow(GoogleMapsService::Client).to receive(:new).with(key: 'key').and_return(client)
+      result = LocationSearch.search('foo', 'key')
+      expect(result).to be_an_instance_of(LocationSearch::Location)
+      expect(result.latitude).to eq(37.3318598)
+    end
+  end
+
+  context 'when google maps returns an one result' do
+    let(:mock_location_search_result) { address }
+
+    it 'returns the first result' do
+      client = double('GoogleMapsService::Client',
+                      geocode: mock_location_search_result)
+      allow(GoogleMapsService::Client).to receive(:new).with(key: 'key').and_return(client)
+      result = LocationSearch.search('foo', 'key')
+      expect(result).to be_an_instance_of(LocationSearch::Location)
+      expect(result.latitude).to eq(37.3318598)
+    end
   end
 end

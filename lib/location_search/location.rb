@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class LocationSearch
   # Service object to wrap the Google Maps API location results
   class Location

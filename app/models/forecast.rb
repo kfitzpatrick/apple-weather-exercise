@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Purpose: Forecast model. This model is used to store the weather forecast data
 # for a given location during a given time period
 class Forecast < ApplicationRecord

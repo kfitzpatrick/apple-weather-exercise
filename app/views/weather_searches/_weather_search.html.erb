@@ -1,4 +1,9 @@
 <div id="<%= dom_id weather_search %>">
   <p>Address: <%= weather_search.address %><br/>
     Updated At: <%= weather_search.updated_at %></p>
+  <ul>
+    <%- weather_search.forecasts.each do |forecast| %>
+      <li><%= image_tag forecast.icon, size: '30x30' %><%= forecast.name %> <%= forecast.temperature %><%= forecast.temperature_unit %></li>
+    <% end %>
+  </ul>
 </div>

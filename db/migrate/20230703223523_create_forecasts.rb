@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Moving forecasts to their own table
 class CreateForecasts < ActiveRecord::Migration[7.0]
   def change

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'google_maps_service'
 require 'location_search'
 require 'location_search/location'
@@ -11,7 +13,9 @@ describe LocationSearch do
         }
       }]
       client_double = double('GoogleMapsService::Client', geocode: gmaps_response)
-      allow(LocationSearch::Location).to receive(:new).with(gmaps_response.first).and_return(double('LocationSearch::Location', latitude: 1))
+      allow(LocationSearch::Location).to receive(:new).with(gmaps_response.first).and_return(double(
+                                                                                               'LocationSearch::Location', latitude: 1
+                                                                                             ))
       expect(GoogleMapsService::Client).to receive(:new).with(key: ENV['GOOGLE_MAPS_API_KEY']).and_return(client_double)
       expect(client_double).to receive(:geocode).with('foo')
 

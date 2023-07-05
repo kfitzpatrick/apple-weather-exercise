@@ -8,8 +8,10 @@ RSpec.describe WeatherSearch, type: :model do
     describe 'before create' do
       describe 'searching for a matching address' do
         context 'on success' do
-          let(:location) { double(LocationSearch::Location, latitude: '3', longitude: '-1', formatted_address: 'foo',
-                                                            zipcode: '95014') }
+          let(:location) do
+            double(LocationSearch::Location, latitude: '3', longitude: '-1', formatted_address: 'foo',
+                                             zipcode: '95014')
+          end
 
           before do
             expect(LocationSearch).to receive(:search).and_return(location)
@@ -29,7 +31,7 @@ RSpec.describe WeatherSearch, type: :model do
           it 'populates the Forecast data in the database and returns' do
             wc_forecasts = [
               FactoryBot.build(:forecast_result, name: 'Today', temperature: 76),
-              FactoryBot.build(:forecast_result, name: 'Tomorrow', temperature: 75),
+              FactoryBot.build(:forecast_result, name: 'Tomorrow', temperature: 75)
             ]
             expect(WeatherClient).to receive(:forecast).and_return(wc_forecasts)
             weather_search = WeatherSearch.new(search_term: 'foo')
@@ -47,5 +49,3 @@ RSpec.describe WeatherSearch, type: :model do
     end
   end
 end
-
-
