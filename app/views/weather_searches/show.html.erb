@@ -1,4 +1,6 @@
 <p style="color: green"><%= notice %></p>
 
-<p>Found <%= @weather_search.address %></p>
+<%= render "form", weather_search: WeatherSearch.new %>
+
+<h2>Found <%= @weather_search.address %></h2>
 <%= render @weather_search %>
