@@ -122,10 +122,9 @@ RSpec.describe 'WeatherSearches', type: :system do
 
   describe 'Doing a Weather Forecast Search' do
     it 'shows the weather forecast for the given location' do
-      visit '/weather_searches/new'
+      visit '/'
       fill_in 'Search term', with: '1 Infinite Loop, Cupertino, CA 95014'
       click_on 'Search'
-      save_and_open_page
       expect(page).to have_text('Found Infinite Loop')
       expect(page).to have_text('Today')
       expect(page).to have_text('Tomorrow')
