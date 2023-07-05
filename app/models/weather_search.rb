@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 require 'weather_client'
+require 'location_search'
 # TODO: load if same zip and less than 30 minutes old
 
 # Represents the search the user is making
@@ -13,7 +14,7 @@ class WeatherSearch < ApplicationRecord
   # Searches for a matching location using the search_term
   # @return [Object]
   def search_location_data
-    location = LocationSearch.search(search_term)
+    location = LocationSearch.search(search_term, Rails.configuration.x.google_maps_api_key)
     self.latitude =  location.latitude
     self.longitude = location.longitude
     self.address =   location.formatted_address

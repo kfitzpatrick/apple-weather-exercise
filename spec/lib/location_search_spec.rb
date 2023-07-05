@@ -18,14 +18,11 @@ describe LocationSearch do
       types: ['premise']
     }]
   end
-  before do
-    allow(ENV).to receive(:[]).with('GOOGLE_MAPS_API_KEY').and_return('key')
-  end
   it 'searches google maps service for a location based on address' do
     client = double('GoogleMapsService::Client',
                     geocode: mock_location_search_result)
     allow(GoogleMapsService::Client).to receive(:new).with(key: 'key').and_return(client)
-    result = LocationSearch.search('foo')
+    result = LocationSearch.search('foo', 'key')
     expect(result).to be_an_instance_of(LocationSearch::Location)
     expect(result.latitude).to eq(37.3318598)
   end
