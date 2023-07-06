@@ -2,7 +2,7 @@
 
 # Controller for WeatherSearches
 class WeatherSearchesController < ApplicationController
-  before_action :set_weather_search, only: %i[show edit update destroy]
+  before_action :set_weather_search, only: %i[show]
 
   def index
     @weather_searches = WeatherSearch.all
