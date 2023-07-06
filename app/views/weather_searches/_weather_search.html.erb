@@ -4,7 +4,16 @@
 
   <ul>
     <%- weather_search.forecasts.each do |forecast| %>
-      <li><%= image_tag forecast.icon, size: '30x30' %><%= forecast.name %> <%= forecast.temperature %><%= forecast.temperature_unit %></li>
+      <li><%= image_tag forecast.icon, size: '30x30' %>
+        &nbsp;
+        <%= forecast.name %> <%= forecast.temperature %><%= forecast.temperature_unit %>
+        <br />
+        <%= forecast.short_forecast %>
+        <br />
+        <%= forecast.start_time %> - <%= forecast.end_time %>
+        <br />
+        <%= forecast.detailed_forecast %>
+      </li>
       <hr />
     <% end %>
   </ul>
