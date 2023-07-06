@@ -3,8 +3,6 @@
 require 'weather_client'
 require 'location_search'
 
-# TODO: load if same zip and less than 30 minutes old
-
 # Represents the search the user is making
 class WeatherSearch < ApplicationRecord
   before_validation :search_location_data
