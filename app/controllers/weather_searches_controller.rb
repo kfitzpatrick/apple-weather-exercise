@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# Controller for WeatherSearches
 class WeatherSearchesController < ApplicationController
   before_action :set_weather_search, only: %i[show edit update destroy]
 
@@ -20,9 +21,8 @@ class WeatherSearchesController < ApplicationController
     @weather_search = WeatherSearch.new(weather_search_params)
     @weather_search.search_location_data
 
-    if existing_search = WeatherSearch.where('zipcode = ? AND updated_at > ?', @weather_search.zipcode,
-                                             30.minutes.ago).first
-      puts "I found it! #{existing_search.created_at}"
+    if (existing_search = WeatherSearch.where('zipcode = ? AND updated_at > ?', @weather_search.zipcode,
+                                              30.minutes.ago).first)
       @weather_search = existing_search
     end
 

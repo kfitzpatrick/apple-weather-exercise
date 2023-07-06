@@ -133,7 +133,7 @@ RSpec.describe 'WeatherSearches', type: :system do
       expect(page).to have_text('Found Infinite Loop')
       expect(page).to have_text('Today')
       expect(page).to have_text('Tomorrow')
-      #it's not cached
+      # it's not cached
       expect(page).to_not have_text('Showing results from cache')
     end
 
@@ -141,7 +141,8 @@ RSpec.describe 'WeatherSearches', type: :system do
       it 'loads an existing search if the zipcode is the same and it is less than 30 minutes old' do
         Timecop.freeze(10.minutes.ago) do
           existing_search = WeatherSearch.create!(search_term: '1 Infinite Loop, Cupertino, CA 95014', zipcode: '95014')
-          existing_search.forecasts.create!(name: 'Today', temperature: 79, temperature_unit: 'F', short_forecast: 'Sunny', icon: 'https://api.weather.gov/icons/land/day/few?size=medium')
+          existing_search.forecasts.create!(name: 'Today', temperature: 79, temperature_unit: 'F',
+                                            short_forecast: 'Sunny', icon: 'https://api.weather.gov/icons/land/day/few?size=medium')
         end
 
         # Make sure the next call to Faraday will fail if it is called

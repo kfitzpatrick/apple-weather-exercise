@@ -8,7 +8,8 @@ RSpec.describe WeatherSearch, type: :model do
     describe 'validations' do
       context 'when location search fails' do
         it 'shows a validation error' do
-          expect(LocationSearch).to receive(:search).and_raise(LocationSearch::NoResultsFoundForAddressError, 'uh oh bad address')
+          expect(LocationSearch).to receive(:search).and_raise(LocationSearch::NoResultsFoundForAddressError,
+                                                               'uh oh bad address')
           weather_search = WeatherSearch.new(search_term: 'foo')
           results = weather_search.save
           expect(results).to eq(false)
@@ -22,7 +23,7 @@ RSpec.describe WeatherSearch, type: :model do
         context 'on success' do
           let(:location) do
             double(LocationSearch::Location, latitude: '3', longitude: '-1', formatted_address: 'foo',
-                   zipcode: '95014')
+                                             zipcode: '95014')
           end
 
           before do

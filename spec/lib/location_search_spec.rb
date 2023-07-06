@@ -34,7 +34,6 @@ describe LocationSearch do
         LocationSearch.search('foo', 'key')
       end.to raise_error(LocationSearch::NoResultsFoundForAddressError, 'No results found for address: foo')
     end
-
   end
 
   context 'when google maps returns an array of possible results' do
@@ -61,13 +60,12 @@ describe LocationSearch do
       expect(result).to be_an_instance_of(LocationSearch::Location)
       expect(result.latitude).to eq(37.3318598)
     end
-
   end
 
   it 'can handle municipal level addresses' do
     # Note, there is no zip code
     mock_location_search_result = {
-      address_components: [ ],
+      address_components: [],
       formatted_address: 'Philadelphia, PA, USA',
       geometry: {
         location: { lat: 39.9525839, lng: -75.1652215 },
