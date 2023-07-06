@@ -22,6 +22,8 @@ In production, add GOOGLE_MAPS_API_KEY to your environment variables.
 
 WeatherSearch/Forecast caching is done through the database. It is set to expire after 30 minutes. 
 
+The request to check the location is not yet cached due to development time restraints. Future development should include a cache for the location lookup with a mapping to zipcode.
+
 * Services (job queues, cache servers, search engines, etc.)
 
 * Deployment instructions
