@@ -18,11 +18,19 @@ class WeatherSearchesController < ApplicationController
   # POST /weather_searches or /weather_searches.json
   def create
     @weather_search = WeatherSearch.new(weather_search_params)
+    @weather_search.search_location_data
+
+    if existing_search = WeatherSearch.where('zipcode = ? AND updated_at > ?', @weather_search.zipcode,
+                                             30.minutes.ago).first
+      puts "I found it! #{existing_search.created_at}"
+      @weather_search = existing_search
+    end
 
     respond_to do |format|
-      if @weather_search.save
+      if existing_search || @weather_search.save
+        notice_message = existing_search ? "Using cached results from #{existing_search.updated_at}" : 'Found weather for location'
         format.html do
-          redirect_to weather_search_url(@weather_search), notice: 'Weather search was successfully created.'
+          redirect_to weather_search_url(@weather_search), notice: notice_message
         end
         format.json { render :show, status: :created, location: @weather_search }
       else

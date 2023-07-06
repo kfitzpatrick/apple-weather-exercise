@@ -112,12 +112,17 @@ RSpec.describe 'WeatherSearches', type: :system do
 
   before do
     driven_by(:rack_test)
+    Timecop.freeze
     google_maps_client = double('GoogleMapsService::Client',
                                 geocode: mock_location_search_result)
     allow(GoogleMapsService::Client).to receive(:new).and_return(google_maps_client)
 
     allow(Faraday).to receive(:new).and_return(double('Faraday connection',
                                                       get: double('Faraday::Response', body: weather_search_result)))
+  end
+
+  after do
+    Timecop.return
   end
 
   describe 'Doing a Weather Forecast Search' do
@@ -128,6 +133,40 @@ RSpec.describe 'WeatherSearches', type: :system do
       expect(page).to have_text('Found Infinite Loop')
       expect(page).to have_text('Today')
       expect(page).to have_text('Tomorrow')
+      #it's not cached
+      expect(page).to_not have_text('Showing results from cache')
+    end
+
+    describe 'when cached' do
+      it 'loads an existing search if the zipcode is the same and it is less than 30 minutes old' do
+        Timecop.freeze(10.minutes.ago) do
+          existing_search = WeatherSearch.create!(search_term: '1 Infinite Loop, Cupertino, CA 95014', zipcode: '95014')
+          existing_search.forecasts.create!(name: 'Today', temperature: 79, temperature_unit: 'F', short_forecast: 'Sunny', icon: 'https://api.weather.gov/icons/land/day/few?size=medium')
+        end
+
+        # Make sure the next call to Faraday will fail if it is called
+        allow(Faraday).to receive(:new).and_raise('Should not have called Faraday')
+
+        visit '/'
+        fill_in 'Search term', with: '1 Infinite Loop, Cupertino, CA 95014'
+        click_on 'Search'
+
+        expect(page).to have_text('Found Infinite Loop')
+        expect(page).to have_text('Using cached results from')
+        expect(page).to have_text('Today')
+      end
+
+      it 'does not load from cache if the zipcode is the same but it is more than 30 minutes old' do
+        Timecop.freeze(36.hours.ago) do
+          WeatherSearch.create!(search_term: '1 Infinite Loop, Cupertino, CA 95014', zipcode: '95014')
+        end
+
+        visit '/'
+        fill_in 'Search term', with: '1 Infinite Loop, Cupertino, CA 95014'
+        click_on 'Search'
+
+        expect(page).to_not have_text('Using cached results from')
+      end
     end
 
     it 'shows an error if the search term is empty' do
@@ -147,7 +186,5 @@ RSpec.describe 'WeatherSearches', type: :system do
         expect(page).to have_text('No results found for address: bad address')
       end
     end
-
-    it 'shows an error if no forecasts were found'
   end
 end

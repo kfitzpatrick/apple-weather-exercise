@@ -77,6 +77,7 @@ gem 'factory_bot_rails', '~> 6.2', groups: %i[development test]
 gem 'guard-rspec', require: false, groups: %i[development test]
 gem 'launchy', '~> 2.5', groups: %i[development test]
 gem 'rspec-rails', '~> 6.0', groups: %i[development test]
+gem 'timecop', '~> 0.9.6', groups: %i[development test]
 
 gem 'faraday', '~> 2.7'
 gem 'faraday-follow_redirects', '~> 0.3.0'
@@ -87,4 +88,5 @@ gem 'pp'
 gem 'rubocop', '~> 1.53', group: :development
 
 gem 'dotenv', '~> 2.8'
+
 

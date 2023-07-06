@@ -18,6 +18,10 @@ In production, add GOOGLE_MAPS_API_KEY to your environment variables.
 
 `bin/rails spec`
 
+* Caching
+
+WeatherSearch/Forecast caching is done through the database. It is set to expire after 30 minutes. 
+
 * Services (job queues, cache servers, search engines, etc.)
 
 * Deployment instructions
