@@ -32,4 +32,20 @@ describe WeatherClient do
       expect(result[0].temperature).to eq(76)
     end
   end
+
+  context 'when no results are available' do
+    it 'raises a PointDataUnavailableError' do
+      conn = double(:faraday_connection)
+      allow(Faraday).to receive(:new).and_return(conn)
+      expect(conn).to receive(:get).with('https://api.weather.gov/points/1,0').and_return(double(:response,
+                                                                                                 body: <<-BODY))
+        {
+          "status": 404,
+          "detail": "No point found for 1,0"
+        }
+                                                                                                 BODY
+
+      expect { WeatherClient.forecast(lat: 1, lng: 0) }.to raise_error(WeatherClient::PointDataUnavailableError)
+    end
+  end
 end

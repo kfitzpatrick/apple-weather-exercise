@@ -30,5 +30,7 @@ class WeatherSearch < ApplicationRecord
 
     forecast_results = WeatherClient.forecast(lat: latitude, lng: longitude)
     self.forecasts = Forecast.from_search_results(forecast_results)
+  rescue WeatherClient::PointDataUnavailableError => e
+    errors.add(:forecasts, e.message)
   end
 end

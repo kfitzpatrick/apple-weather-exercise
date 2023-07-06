@@ -6,6 +6,8 @@ require 'weather_client/forecast_result'
 
 # WeatherClient uses the National Weather Service to retrieve weather forecasts
 class WeatherClient
+  class PointDataUnavailableError < StandardError; end
+
   attr_reader :conn
 
   def initialize
@@ -18,9 +20,13 @@ class WeatherClient
   # @return [Array[WeatherClient::ForecastResult]] An array of ForecastResult objects
   def forecast_at(lat:, lng:)
     point_data = get_point_data(lat, lng)
+    raise PointDataUnavailableError, point_data['detail'] if point_data['status'] == 404
+
     forecast_url = point_data['properties']['forecast']
     response = conn.get(forecast_url)
+
     body = JSON.parse(response.body)
+
     props = body['properties']
     props['periods'].map { |p| ForecastResult.from_json(p) }
   end
